@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fins Up for the Finish Line | Cross Country Fundraiser</title>
+  <meta name="description" content="Support our cross country team! Select an item and donate the equivalent to help us reach our goal." />
+  https://fonts.gstatic.com
+  https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600;700&display=swap
+  <style>
+    :root{
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --ink: #102a43;
+      --muted: #486581;
+      --accent: #0077b6;   /* ocean blue */
+      --accent-2: #00b4d8; /* wave blue */
+      --accent-3: #90e0ef; /* foam */
+      --success: #2fb344;
+      --warning: #f59f00;
+      --shadow: 0 8px 24px rgba(16, 42, 67, 0.08);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header.hero{
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, var(--accent-3) 100%);
+      color:white; padding:64px 20px 48px; position:relative; overflow:hidden;
+    }
+    .hero .wrap{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+    @media (max-width: 900px){ .hero .wrap{grid-template-columns:1fr} }
+    h1{font-family:Montserrat,Inter,sans-serif; font-size:2.4rem; margin:0 0 10px}
+    .tagline{font-size:1.05rem; line-height:1.5; opacity:.95; margin-bottom:18px}
+    .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:6px 10px;border-radius:999px;font-weight:600;letter-spacing:.3px;margin-bottom:14px}
+
+    .panel{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; color:#062034;
+    }
+    .progress{
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .bar{
+      height:14px; background:#e6f2ff; border-radius:999px; overflow:hidden; position:relative;
+    }
+    .bar > span{
+      display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      transition:width .5s ease;
+    }
+    .progress .stats{display:flex; flex-wrap:wrap; gap:14px; font-weight:600}
+    .stats .pill{padding:6px 10px; background:#eff7ff; border-radius:999px}
+    .controls{display:flex; gap:8px; flex-wrap:wrap}
+    .controls button{
+      background:white;border:1px solid #dbeafe;border-radius:10px;padding:8px 10px;cursor:pointer;font-weight:600;color:var(--accent);
+    }
+    .controls button:hover{background:#f3f9ff}
+    main{max-width:1000px;margin:-30px auto 70px;padding:0 20px}
+    .grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px
+    }
+    @media (max-width: 960px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width: 640px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px
+    }
+    .card h3{margin:0;font-size:1.05rem}
+    .amount{font-weight:800;font-size:1.1rem;color:var(--accent)}
+    .desc{color:var(--muted); font-size:.95rem}
+    .actions{margin-top:auto; display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      border:none; border-radius:10px; padding:10px 12px; cursor:pointer; font-weight:700; letter-spacing:.2px;
+    }
+    .btn.primary{background:var(--accent); color:white}
+    .btn.secondary{background:#eef7ff; color:var(--accent)}
+    .btn.track{background:#eafaf0; color:var(--success)}
+    .btn:hover{filter:brightness(.98)}
+    .note{font-size:.9rem; color:var(--muted)}
+    footer{max-width:1000px;margin:40px auto 70px;padding:0 20px;color:var(--muted);font-size:.95rem}
+    .shark{position:absolute; right:-120px; bottom:-90px; width:380px; opacity:.18; pointer-events:none; transform:rotate(-8deg)}
+    .sr-only{position:absolute !important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+  </style>
+</head>
+<body>
+  <header class="hero" role="banner">
+    <div class="wrap">
+      <div>
+        <div class="badge">Fins Up for the Finish Line</div>
+        <h1>Support Our Cross Country Team</h1>
+        <p class="tagline">Choose an item below and donate the equivalent amount. Every gift helps our athletes train, travel, and compete.</p>
+
+        <div class="panel progress" aria-labelledby="progressLabel">
+          <strong id="progressLabel">Fundraising Progress</strong>
+          <div class="bar" aria-hidden="true"><span id="progressBar"></span></div>
+          <div class="stats">
+            <div class="pill"><span id="raised">$0</span> raised</div>
+            <div class="pill">Goal: <span id="goal">$2,000</span></div>
+            <div class="pill"><span id="percent">0%</span> reached</div>
+            <div class="pill"><span id="donationsCount">0</span> donations tracked</div>
+          </div>
+          <div class="controls">
+            <button id="shareBtn" title="Copy page link">🔗 Share</button>
+            <button id="resetBtn" title="Clear tracked totals (local only)">♻️ Reset totals</button>
+          </div>
+        </div>
+        <p class="note">Tip: If you donate via the buttons on an item, please also click “Mark as pledged” so we can update the progress here.</p>
+      </div>
+      <div aria-hidden="true">
+        <!-- Decorative shark silhouette -->
+        <svg class="shark" viewBox="0 0 300 150" fill="currentColor">
+          <path d="M12 78c34-22 92-40 146-28 37 8 62 1 94-14-10 12-19 25-19 30 0 5 9 18 19 30-32-15-57-22-94-14-54 12-112-6-146-28z" opacity=".9"/>
+          <circle cx="188" cy="60" r="3" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="itemsHeading">
+      <h2 id="itemsHeading" class="sr-only">Donation Items</h2>
+      <div class="grid" id="itemsGrid"><!-- Cards injected by JS --></div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>About this fundraiser</strong>
+    <p>We’re raising funds to cover essential team needs like race fees, hotels, transportation, training shirts, photos/awards, our banquet, and coaching. Thank you for supporting our runners!</p>
+    <p class="note">This page doesn’t process payments. Buttons link to our payment options; totals shown here are updated locally for visibility.</p>
+  </footer>
+
+  <script>
+    /***** CONFIG *****/
+    const GOAL = 2000; // <- Change your goal here if needed
+    // Optional: add your payment links below (or leave blank to hide)
+    const PAYMENT = {
+      paypal: 'PAYPAL_LINK_HERE', // e.g., https://www.paypal.com/donate?business=YOURID
+      venmo:  'VENMO_LINK_HERE'   // e.g., https://venmo.com/u/YOURHANDLE
+      // You can add a Stripe Payment Link here too if you have one
+      // stripe: 'https://buy.stripe.com/your_link'
+    };
+
+    // Your exact items + amounts:
+    const ITEMS = [
+      { name: "Race Fees", amount: 1400, desc: "Entry fees for meets and competitions." },
+      { name: "Hotels for District Race", amount: 650, desc: "Lodging for the district meet." },
+      { name: "Hotels for Regional Race", amount: 500, desc: "Lodging for the regional meet." },
+      { name: "Training shirts", amount: 750, desc: "Training tees for athletes." },
+      { name: "photos/awards/yearbook", amount: 300, desc: "Photos, awards, and yearbook keepsakes." },
+      { name: "Banquet/food", amount: 450, desc: "End‑of‑season banquet meal." },
+      { name: "transportation to district", amount: 450, desc: "Bus/van to the district meet." },
+      { name: "Transportation to Regional", amount: 600, desc: "Travel to the regional meet." },
+      { name: "Dinner at district", amount: 250, desc: "Team dinner after district." },
+      { name: "Dinner at Regionals", amount: 250, desc: "Team dinner after regionals." },
+      { name: "All other transportation", amount: 1800, desc: "Additional transportation needs." },
+      { name: "Coaching", amount: 2500, desc: "Coaching support for the season." }
+    ];
+
+    /***** STATE (local only) *****/
+    const STORAGE_KEY = 'xc_fundraiser_totals_v1';
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"raised":0,"count":0}');
+    const fmt = n => n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
+    const fmtPct = p => `${Math.min(100, Math.round(p))}%`;
+
+    /***** RENDER *****/
+    function renderProgress(){
+      const raisedEl = document.getElementById('raised');
+      const goalEl = document.getElementById('goal');
+      const pctEl = document.getElementById('percent');
+      const bar = document.getElementById('progressBar');
+      const countEl = document.getElementById('donationsCount');
+
+      raisedEl.textContent = fmt(state.raised);
+      goalEl.textContent = fmt(GOAL);
+      const pct = state.raised / GOAL * 100;
+      pctEl.textContent = fmtPct(pct);
+      bar.style.width = Math.min(100, pct) + '%';
+      countEl.textContent = state.count;
+    }
+
+    function buildItemCard(item){
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${item.name}</h3>
+        <div class="amount">${fmt(item.amount)}</div>
+        ${item.desc ? `<p class="desc">${item.desc}</p>` : ''}
+        <div class="actions">
+          ${PAYMENT.paypal ? `<a class="btn primary" target="_blank" rel="noopener noreferrer"
+             href="${PAYMENT.paypal}">Donate via PayPal</a>` : ''}
+          ${PAYMENT.venmo ? `<a class="btn secondary" target="_blank" rel="noopener noreferrer"
+             href="${PAYMENT.venmo}">Donate via Venmo</a>` : ''}
+          <button class="btn track" type="button">Mark as pledged</button>
+        </div>
+        <p class="note">Tip: You can cover part or all of this item.</p>
+      `;
+
+      // Track pledged adds this item's amount (you can edit quickly)
+      const trackBtn = card.querySelector('.btn.track');
+      trackBtn.addEventListener('click', () => {
+        const val = prompt(`Enter amount to record for "${item.name}"`, item.amount);
+        if(!val) return;
+        const num = Number(String(val).replace(/[^0-9.]/g,''));
+        if(!isFinite(num) || num <= 0){ alert('Please enter a valid amount.'); return; }
+        state.raised += num;
+        state.count += 1;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderProgress();
+      });
+
+      return card;
+    }
+
+    function renderItems(){
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = '';
+      ITEMS.forEach(item => grid.appendChild(buildItemCard(item)));
+    }
+
+    /***** UTILITIES *****/
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if(confirm('Reset tracked totals? This only affects your browser.')){
+        state.raised = 0; state.count = 0;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderProgress();
+      }
+    });
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: document.title,
+        text: 'Support our Cross Country Team!',
+        url: window.location.href
+      };
+      try{
+        if(navigator.share){
+          await navigator.share(shareData);
+        }else{
+          await navigator.clipboard.writeText(window.location.href);
+          alert('Link copied to clipboard!');
+        }
+      }catch(e){
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    });
+
+    // INIT
+    renderItems();
+    renderProgress();
+  </script>
+</body>
+</html>
